@@ -14,7 +14,6 @@ typedef struct {
     size_t cap;
 }string_buf;
 
-
 #define do_append(buf, new_elem, elem_type)                                            \
     do {                                                                               \
         if ((buf)->cap == (buf)->len) {                                                \
@@ -27,6 +26,8 @@ typedef struct {
 
 #define append(elem, ...) append_with_null(elem, __VA_ARGS__, NULL) 
 
+#ifdef STRING_IMPL
+
 void append_with_null(string_buf* elem, ...) {
     va_list args;
     va_start(args, elem);
@@ -37,7 +38,9 @@ void append_with_null(string_buf* elem, ...) {
     }
     va_end(args);
 }
+#endif
 
+void append_with_null(string_buf* elem, ...);
 void clear_str_buff(string_buf* str);
 
 #endif

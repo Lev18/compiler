@@ -1,3 +1,5 @@
-    while(in < arr->len) {
+#include <stdio.h>
 
-    while(in < arr->len) {
+int main() {
+    return 0;
+}
