@@ -7,8 +7,10 @@
 
 typedef enum {
     TOK_EOF = 0,
-    TOK_PREP,
-    TOK_SYMBOL,
+    TOK_PREP = 256,
+    TOK_ID,
+    TOK_KEYWORD,
+    TOK_OPER,
     TOK_OPEN_PAREN,
     TOK_CLOSE_PAREN,
     TOK_OPEN_CURLY,
@@ -22,10 +24,19 @@ typedef struct {
     size_t col;
 }Location;
 
+
+typedef struct {
+    const char *input_stream;
+    const char *eof;
+    const char *cursor_pos;
+    size_t string_len;
+}Lexer;
+
 typedef struct {
     Token_Type tok_type;
-    char *text;
-    size_t text_len;
+    const char *start;
+    const char *end;
+    size_t length;
 }Token;
 
 typedef struct {
@@ -39,8 +50,9 @@ typedef struct {
     size_t len;
 }Tokens;
 
-void line_tokenizer(Tokens* tokens, const char* line);
-void insert_token(Tokens* all_tok, const char* st, const char* end, Token_Type type);
+void init_c_lexer(Lexer* lexer, const char *in, const char *end, size_t length);
+int get_next_token(Lexer* lexer, Tokens* tokens);
+int insert_token(Tokens* all_tok, const char* st, const char* end, Token_Type type);
 const char *trim_left(const char* elem);
 const char *detect_token_type(Token *tokens);
 void trim(string_buf* arr);
